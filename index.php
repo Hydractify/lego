@@ -12,9 +12,6 @@ if(isset($config['boxes']))
 	<link href="<?php echo $template_path; ?>/basic.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="tools/basic.js"></script>
 	<script type="text/javascript" src="<?php echo $template_path; ?>/ticker.js"></script>
-	<script id="twitter-wjs" src="<?php echo $template_path; ?>/js/twitter.js"></script>
-	<script id="facebook-jssdk" async src="https://connect.facebook.net/en_US/all.js"></script>
-	<link href="<?php echo $template_path; ?>/css/facebook.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript">
 		var menus = '';
 		var loginStatus="<?php echo ($logged ? 'true' : 'false'); ?>";
@@ -224,54 +221,6 @@ if(isset($config['boxes']))
 </head>
 <body onBeforeUnLoad="SaveMenu();" onUnload="SaveMenu();">
 	<?php echo template_place_holder('body_start'); ?>
-	<?php if(!empty($config['network_facebook'])) {?>
-	<script type="text/javascript">
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : 497232093667125, // App ID
-                status     : true,              // check login status
-                cookie     : true,              // enable cookies to allow the server to access the session
-                xfbml      : true               // parse XFBML
-            });
-            FB.Event.subscribe('auth.login', function() {
-                var URLHelper = "?";
-                if (window.location.search.replace("?", "").length > 0) {
-                    URLHelper = "&";
-                }
-                if (FB_TryLogin == 1) {
-                    window.location = window.location + URLHelper + "step=facebooktrylogin&wasreloaded=1";
-                } else if (FB_TryLogin == 2) {
-                    window.location = window.location + URLHelper + "page=facebooktrylogin&wasreloaded=1";
-                } else {
-                    window.location = window.location + URLHelper + "wasreloaded=1";
-                }
-            });
-            FB.Event.subscribe('auth.logout', function(a_Response) {
-                if (a_Response.status !== 'connected') {
-                    window.location.href=window.location.href;
-                } else {
-                    /* nothing to do here*/
-                }
-            });
-            FB.Event.subscribe('auth.statusChange', function(response) {
-                if (FB_ForceReload == 1 && response.status == "connected") {
-                    var URLHelper = "?";
-                    if (window.location.search.replace("?", "").length > 0) {
-                        URLHelper = "&";
-                    }
-                    window.location = window.location + URLHelper + "step=facebooktrylogin&wasreloaded=1";
-                }
-            });
-        };
-        (function(d){
-            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement('script'); js.id = id; js.async = true;
-            js.src = "//connect.facebook.net/en_US/all.js";
-            ref.parentNode.insertBefore(js, ref);
-        }(document));
-	</script>
-	<?php } ?>
   <div id="top"></div>
   <div id="ArtworkHelper" style="background-image:url(<?php echo $template_path; ?>/images/header/<?php echo $config['background_image']; ?>);" >
     <div id="Bodycontainer">
@@ -361,7 +310,7 @@ foreach($config['menu_categories'] as $id => $cat) {
 	?>
 	</div>
 	<?php
-	if($id == MENU_CATEGORY_SHOP || (!$config['gifts_system'] && $id == MENU_CATEGORY_SHOP - 1)) {
+	if($id == MENU_CATEGORY_COMMUNITY) {
 	?>
 		<div id='MenuBottom' style='background-image:url(<?php echo $template_path; ?>/images/general/box-bottom.gif);'></div>
 	<?php
